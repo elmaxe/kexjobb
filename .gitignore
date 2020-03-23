@@ -1,3 +1,6 @@
+# Replicated neurons file, huge 
+data/*replicated*
+
 # Compiled class file
 *.class
 
