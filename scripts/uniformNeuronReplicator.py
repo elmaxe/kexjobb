@@ -36,7 +36,7 @@ def replicate(neurons, xLen, yLen, zLen, density, seed):
 
 outputFile = open("../data/replicated.txt", "w+")
 neuron = f.swcToPoints("../data/neuron1.swc")
-newNeurons = replicate([neuron], 1000.0, 1000.0, 1000.0, 10000, r.random())
+newNeurons = replicate([neuron], 1000.0, 1000.0, 1000.0, 10, r.random())
 for i, n in enumerate(newNeurons): 
   for (x, y, z) in n:
     outputFile.write("%f %f %f n%d\n" % (x, y, z, i))
