@@ -1,6 +1,10 @@
 import random as r
 import functions as f
 
+QUERIES = 200
+# 5 micrometers is used in the FLAT paper
+QUERY_RANGE = 5.0
+
 """
 Replicates a set of neurons randomly inside a volume, such that the center
 of each neuron is drawn from a uniform 3-dimensional distribution. The centers 
@@ -36,3 +40,10 @@ newNeurons = replicate([neuron], 1000.0, 1000.0, 1000.0, 10000, r.random())
 for i, n in enumerate(newNeurons): 
   for (x, y, z) in n:
     outputFile.write("%f %f %f n%d\n" % (x, y, z, i))
+
+queriesFile = open("../data/queries.txt", "w+")
+queryNeurons = r.choices(newNeurons, k=QUERIES)
+
+for neuron in queryNeurons:
+  x, y, z = r.choice(neuron)
+  queriesFile.write("%f, %f, %f, %f\n" % (x, y, z, QUERY_RANGE))
