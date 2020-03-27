@@ -1,7 +1,8 @@
 #!/bin/bash
-# $1 Path to data
-# $2 Path to query points
-# $3 Distance function: "maximum" or "euclid"
+# $1 Path to data.
+# $2 Path to query points.
+# $3 Distance function: "maximum" or "euclid".
+# $4 Folder to save output files to.
 if [ "$3" == "maximum" ]; then
     dist="minkowski.MaximumDistanceFunction"
 else
@@ -19,11 +20,13 @@ strategies[hilbert]="-spatial.bulkstrategy SpatialSortBulkSplit -rtree.bulk.spat
 strategies[peano]="-spatial.bulkstrategy SpatialSortBulkSplit -rtree.bulk.spatial-sort PeanoSpatialSorter"
 strategies[zcurve]="-spatial.bulkstrategy SpatialSortBulkSplit -rtree.bulk.spatial-sort ZCurveSpatialSorter"
 
+mkdir -p $4
+
 for strategy in "${strategyIndices[@]}"
 do
     echo "Start $strategy"
     echo "./elkinogui.sh -dbc.in $1 -db.index tree.spatial.rstarvariants.rstar.RStarTreeFactory -pagefile.pagesize 4096 ${strategies[$strategy]} -time -algorithm benchmark.RangeQueryBenchmarkAlgorithm -algorithm.distancefunction $dist -rangebench.query FileBasedDatabaseConnection -dbc.in $2 -evaluator NoAutomaticEvaluation -resulthandler ResultWriter | grep --invert-match '#'"
-    ./elkinogui.sh -dbc.in $1 -db.index tree.spatial.rstarvariants.rstar.RStarTreeFactory -pagefile.pagesize 4096 ${strategies[$strategy]} -time -algorithm benchmark.RangeQueryBenchmarkAlgorithm -algorithm.distancefunction $dist -rangebench.query FileBasedDatabaseConnection -dbc.in $2 -evaluator NoAutomaticEvaluation -resulthandler ResultWriter | grep --invert-match '#' > $strategy.txt
+    time ./elkinogui.sh -dbc.in $1 -db.index tree.spatial.rstarvariants.rstar.RStarTreeFactory -pagefile.pagesize 4096 ${strategies[$strategy]} -time -algorithm benchmark.RangeQueryBenchmarkAlgorithm -algorithm.distancefunction $dist -rangebench.query FileBasedDatabaseConnection -dbc.in $2 -evaluator NoAutomaticEvaluation -resulthandler ResultWriter | grep --invert-match '#' > $4/$strategy.txt
     echo "Finshed $strategy"
     echo ""
 done
