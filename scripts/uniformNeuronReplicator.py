@@ -1,9 +1,25 @@
 import random as r
 import functions as f
+import sys
+from os import listdir
+from os.path import isfile, join
 
-QUERIES = 200
-# 5 micrometers is used in the FLAT paper
-QUERY_RANGE = 5.0
+
+# Path where data is located
+FOLDER_PATH = sys.argv[1]
+# Path where output is saved
+OUTPUT_DATA_FILE_PATH = sys.argv[2]
+OUTPUT_QUERY_FILE_PATH = sys.argv[3]
+# Length in micrometers
+X_LENGTH = float(sys.argv[4])
+Y_LENGTH = float(sys.argv[5])
+Z_LENGTH = float(sys.argv[6])
+# Neurons per cubic millimeter
+DENSITY = float(sys.argv[7])
+# Number of queries
+QUERIES = int(sys.argv[8])
+# Micrometers
+QUERY_RANGE = float(sys.argv[9])
 
 """
 Replicates a set of neurons randomly inside a volume, such that the center
@@ -34,14 +50,15 @@ def replicate(neurons, xLen, yLen, zLen, density, seed):
   return replicatedNeurons
 
 
-outputFile = open("../data/replicated.txt", "w+")
-neuron = f.swcToPoints("../data/neuron1.swc")
-newNeurons = replicate([neuron], 1000.0, 1000.0, 1000.0, 10, r.random())
+outputFile = open(OUTPUT_DATA_FILE_PATH, "w+")
+inputNeurons = [f.swcToPoints(join(FOLDER_PATH, filepath)) for filepath in listdir(FOLDER_PATH) if isfile(join(FOLDER_PATH, filepath)) and join(FOLDER_PATH, filepath).endswith(".swc")]
+
+newNeurons = replicate(inputNeurons, X_LENGTH, Y_LENGTH, Z_LENGTH, DENSITY, r.random())
 for i, n in enumerate(newNeurons): 
   for (x, y, z) in n:
     outputFile.write("%f %f %f n%d\n" % (x, y, z, i))
 
-queriesFile = open("../data/queries.txt", "w+")
+queriesFile = open(OUTPUT_QUERY_FILE_PATH, "w+")
 queryNeurons = r.choices(newNeurons, k=QUERIES)
 
 for neuron in queryNeurons:
