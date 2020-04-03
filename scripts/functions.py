@@ -1,33 +1,113 @@
 import re
+import math
+from morphon import Morph, Nodes
+import random as r
+
 
 """
-Shifts all points in a data set so that the mean x-, y-, and z-values are zero. 
-Parameters: points, a list of tuples of the form (x, y, z)
+Randomly translates a morphon Morph placing the center of the neuron inside the cuboid 
+defined by x in [0, xLen), y in [0, yLen), z in [0, zLen). 
 """
-def centerAtOrigin(points):
-  mean = meanPoint(points)
-  return [(x-mean[0], y-mean[1], z-mean[2]) for (x, y, z) in points]
+def randomlyTranslate(m, xLen, yLen, zLen):
+  xd, yd, zd = r.random()*xLen, r.random()*yLen, r.random()*zLen
+  m.translate((xd, yd, zd))
 
-# Computes the mean point of a dataset
-def meanPoint(points):
-  n = len(points)
-  xTotal, yTotal, zTotal = 0, 0, 0
-  for p in points:
-    xTotal += p[0]
-    yTotal += p[1]
-    zTotal += p[2]
-  return (xTotal/n, yTotal/n, zTotal/n)
 
-# Returns a list of tuples (x, y, z) given an SWC file
-def swcToPoints(filepath):
-  res = []
-  inputFile = open(filepath)
-  for line in inputFile:
-    if re.match("\s*#.*\s*", line):
-      continue
-    else:
-      tokens = line.split()
-      index, flag, parent = int(tokens[0]), int(tokens[1]), int(tokens[6])
-      x, y, z, r = float(tokens[2]), float(tokens[3]), float(tokens[4]), float(tokens[5])
-      res.append((x, y, z))
-  return res
+# Takes a filepath, returns morph object
+def morphFromFile(filepath):
+  m = Morph()
+  m.load(filepath)
+  return m
+
+
+"""
+Takes a list of Morph objects and converts them to a single string 
+of the form 'x y z label' where label is 'n'+the index of the neuron.
+"""
+def morphListToString(morphs):
+  # Use flattening 2d list comprehension combined with str.join to build very long string
+  # LC first iterates over enumerate(morphs), then morphToStrings(m, i)
+  # See https://stackoverflow.com/questions/25345770/list-comprehension-replace-for-loop-in-2d-matrix
+  print("Building big string...")
+  return '\n'.join([s for (i, m) in enumerate(morphs) for s in morphToStrings(m, i)])
+
+
+"""
+Randomly rotates a morphon Morph object around the y-axis (0, 1, 0) with uniform distribution of rotation angles.
+Adapted from Kozlov's sample code.
+"""
+def randomlyRotate(m):
+  axis = (0, 1, 0) # the y-axis, as is appropriate for the Allen institute human pyramidal cells
+  angle = math.pi*r.random() # value in range [0, math.pi)
+  m.rotate(axis, angle)
+
+"""
+Randomly scales a neuron by a random factor in the range [lowScale, highScale), uniform distribution
+"""
+def randomlyScale(m, lowScale, highScale):
+  factor = r.uniform(lowScale, highScale)
+  m.scale(factor)
+
+
+"""
+Converts a morphon Morph object into a list of strings of the form 
+'x y z label', where label is an n followed immediately by the id. Note: no newline in the string.
+Implementation based on the save function in morphon/swc.
+"""
+def morphToStrings(m, id):
+  data = []
+  for item in m.traverse(): 
+    (t, (x, y, z), r) = m.value(item)
+    data.append("%f %f %f n%d" % (x, y, z, id))
+  return data
+
+
+# Returns a random tuple of (x, y, z) present in a morphology
+def randomPointInMorph(m):
+  item = r.choice([i for i in m.traverse()])
+  (t, (x, y, z), radius) = m.value(item)
+  return (x, y, z)
+
+"""
+Replicates a set of neurons randomly inside a volume, such that the center
+of each neuron is drawn from a uniform 3-dimensional distribution. The centers 
+of the neurons are placed s.t. x is in [0, xLen), y is in [0, yLen), and z is 
+in [0, zLen). The neuron picked for placement is drawn from a uniform 
+distribution as well. Before placement, the neurons are randomly rotated around the 
+y-axis (0, 1, 0) and randomly scaled by a factor of 0.8 to 1.2. 
+
+Parameters: 
+  neurons: a list of lists of tuples of the form (x, y, z), such that each list represents one neuron
+  xLen, yLen, zLen: the extension of the volume in which to place the neurons along each axis (in micrometers)
+  density: neurons per cubic millimeter
+
+Returns: 
+  A list of the resulting morphon Morph objects. 
+
+"""
+def replicate(morphs, xLen, yLen, zLen, density):
+
+  LOW_SCALE = 0.8
+  HIGH_SCALE = 0.8
+
+  # Function applied to every copied neuron.
+  # All neurons are origin-centered, so new pos obtained by randomly rotating, scaling, and translating.
+  def processSingleMorph(m):
+    randomlyRotate(m)
+    randomlyScale(m, LOW_SCALE, HIGH_SCALE)
+    randomlyTranslate(m, xLen, yLen, zLen)
+  
+  # volume is converted to mm3 by 10^-9 multiplication, then multiplied by density, to produce number of neurons in model
+  n = int(density*xLen*yLen*zLen/(10.0**9)) 
+
+  # Generate n randomly copied neurons, with replacement
+  indices = range(len(morphs)) 
+  print("Copying morphologies...")
+  morphCopies = [morphs[i].copy() for i in r.choices(indices, k=n)] 
+
+  # Apply the processing function to each neuron
+  print("Applying processing function to each neuron...")
+  for m in morphCopies: 
+    processSingleMorph(m)
+
+  return morphCopies
