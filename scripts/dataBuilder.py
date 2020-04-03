@@ -1,3 +1,7 @@
+"""
+This script generates neuromorphological data in the form of points. It needs to 
+be run from the directory in which it is located (i.e., using 'python3 dataBuilder.py')
+"""
 import random as r
 import functions as f
 import sys
@@ -21,6 +25,7 @@ DENSITY = float(sys.argv[7])
 QUERIES = int(sys.argv[8])
 # Micrometers
 QUERY_RANGE = float(sys.argv[9])
+
 
 #### Script start
 outputFile = open(OUTPUT_DATA_FILE_PATH, "w+")
