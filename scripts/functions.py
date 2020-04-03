@@ -38,7 +38,7 @@ Adapted from Kozlov's sample code.
 """
 def randomlyRotate(m):
   axis = (0, 1, 0) # the y-axis, as is appropriate for the Allen institute human pyramidal cells
-  angle = math.pi*r.random() # value in range [0, math.pi)
+  angle = math.pi*2.0*r.random() # value in range [0, 2*math.pi)
   m.rotate(axis, angle)
 
 """
