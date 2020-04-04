@@ -29,6 +29,7 @@ def morphListToString(morphs):
   # LC first iterates over enumerate(morphs), then morphToStrings(m, i)
   # See https://stackoverflow.com/questions/25345770/list-comprehension-replace-for-loop-in-2d-matrix
   print("Building big string...")
+  print("Number of elements: ", sum([m.size() for m in morphs]))
   return '\n'.join([s for (i, m) in enumerate(morphs) for s in morphToStrings(m, i)])
 
 

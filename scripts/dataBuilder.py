@@ -24,7 +24,8 @@ DENSITY = float(sys.argv[7])
 # Number of queries
 QUERIES = int(sys.argv[8])
 # Micrometers
-QUERY_RANGE = float(sys.argv[9])
+EUCLID_QUERY_RANGE = float(sys.argv[9])
+CHEBYSHEV_QUERY_RANGE = float(sys.argv[10])
 
 
 #### Script start
@@ -44,10 +45,12 @@ print("Writing final string to file...")
 outputFile.write(stringToWrite)
 
 # Open query file, select the neurons used for each query (with replacement, random.choices)
-queriesFile = open(OUTPUT_QUERY_FILE_PATH, "w+")
+queriesFileEuclid = open(OUTPUT_QUERY_FILE_PATH + "-euclid.txt", "w+")
+queriesFileChebyshev = open(OUTPUT_QUERY_FILE_PATH + "-chebyshev.txt", "w+")
 queryMorphs = r.choices(newMorphs, k=QUERIES)
 
 # For each neuron to be used for a query, select an actual point in it
 for m in queryMorphs:
   x, y, z = f.randomPointInMorph(m)
-  queriesFile.write("%f, %f, %f, %f\n" % (x, y, z, QUERY_RANGE))
+  queriesFileEuclid.write("%f, %f, %f, %f\n" % (x, y, z, EUCLID_QUERY_RANGE))
+  queriesFileChebyshev.write("%f, %f, %f, %f\n" % (x, y, z, CHEBYSHEV_QUERY_RANGE))
