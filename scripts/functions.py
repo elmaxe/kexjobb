@@ -24,13 +24,8 @@ def morphFromFile(filepath):
 Takes a list of Morph objects and converts them to a single string 
 of the form 'x y z label' where label is 'n'+the index of the neuron.
 """
-def morphListToString(morphs):
-  # Use flattening 2d list comprehension combined with str.join to build very long string
-  # LC first iterates over enumerate(morphs), then morphToStrings(m, i)
-  # See https://stackoverflow.com/questions/25345770/list-comprehension-replace-for-loop-in-2d-matrix
-  print("Building big string...")
-  print("Number of elements: ", sum([m.size() for m in morphs]))
-  return '\n'.join([s for (i, m) in enumerate(morphs) for s in morphToStrings(m, i)])
+def morphListToStringList(morphs):
+  return [morphToStrings(m, id) for (i, m) in enumerate(morphs)]
 
 
 """
@@ -52,14 +47,15 @@ def randomlyScale(m, lowScale, highScale):
 
 """
 Converts a morphon Morph object into a list of strings of the form 
-'x y z label', where label is an n followed immediately by the id. Note: no newline in the string.
-Implementation based on the save function in morphon/swc.
+'x y z label', where label is an n followed immediately by the id.
+Implementation based on the save function in morphon/swc. 
+Note: Newlines at the end of each string. 
 """
 def morphToStrings(m, id):
   data = []
   for item in m.traverse(): 
     (t, (x, y, z), r) = m.value(item)
-    data.append("%f %f %f n%d" % (x, y, z, id))
+    data.append("%f %f %f n%d\n" % (x, y, z, id))
   return data
 
 
@@ -68,6 +64,15 @@ def randomPointInMorph(m):
   item = r.choice([i for i in m.traverse()])
   (t, (x, y, z), radius) = m.value(item)
   return (x, y, z)
+
+
+"""
+Writes a morph to a file
+"""
+def appendMorphToFile(m, id, filepath):
+  f = open(filepath, "a")
+  f.write("".join(morphToStrings(m, id)))
+
 
 """
 Replicates a set of neurons randomly inside a volume, such that the center
