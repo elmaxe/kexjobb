@@ -47,7 +47,7 @@ print(" done.")
 n = int(DENSITY*X_LENGTH*Y_LENGTH*Z_LENGTH/(10.0**9)) 
 
 for i in range(n):
-  m = r.choice(inputMorphs)
+  m = r.choice(inputMorphs).copy()
   processSingleMorph(m, i)
   if(i > 0 and (i+1) % 100 == 0):
     print("%d/%d neurons placed" % (i+1, n))
