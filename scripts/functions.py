@@ -80,9 +80,9 @@ Writes (appends) a morph to a file s.t. only points within the
 specified volume are actually included in the file. Other points
 are discarded.
 """
-def appendMorphToFileTrimmed(m, id, xMin, xMax, yMin, yMax, zMin, zMax):
+def appendMorphToFileTrimmed(m, id, filepath, xMin, xMax, yMin, yMax, zMin, zMax):
   f = open(filepath, "a")
-  f.write("".join(morphToStrings(m, id, xMin, xMax, yMin, yMax, zMin, zMax)))
+  f.write("".join(morphToStrings(m, id, filepath, xMin, xMax, yMin, yMax, zMin, zMax)))
 
 """
 Replicates a set of neurons randomly inside a volume, such that the center

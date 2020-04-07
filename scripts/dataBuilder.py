@@ -23,11 +23,6 @@ Y_LENGTH = float(sys.argv[4])
 Z_LENGTH = float(sys.argv[5])
 # Neurons per cubic millimeter
 DENSITY = float(sys.argv[6])
-# Number of queries
-QUERIES = int(sys.argv[7])
-# Micrometers
-EUCLID_QUERY_RANGE = float(sys.argv[8])
-CHEBYSHEV_QUERY_RANGE = float(sys.argv[9])
 
 # Function applied to every copied neuron.
 # All neurons are origin-centered, so new pos obtained by randomly rotating, scaling, and translating.
