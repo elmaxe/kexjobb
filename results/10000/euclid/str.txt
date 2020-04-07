@@ -1,0 +1,26 @@
+de.lmu.ifi.dbs.elki.datasource.FileBasedDatabaseConnection.load: 48575 ms
+de.lmu.ifi.dbs.elki.index.tree.spatial.rstarvariants.rstar.RStarTreeIndex.directory.capacity: 70
+de.lmu.ifi.dbs.elki.index.tree.spatial.rstarvariants.rstar.RStarTreeIndex.directory.minfill: 28
+de.lmu.ifi.dbs.elki.index.tree.spatial.rstarvariants.rstar.RStarTreeIndex.leaf.capacity: 120
+de.lmu.ifi.dbs.elki.index.tree.spatial.rstarvariants.rstar.RStarTreeIndex.leaf.minfill: 48
+de.lmu.ifi.dbs.elki.index.tree.spatial.rstarvariants.rstar.RStarTreeIndex.construction: 39596 ms
+Index statistics before running algorithms:
+de.lmu.ifi.dbs.elki.persistent.MemoryPageFile.reads: 0
+de.lmu.ifi.dbs.elki.persistent.MemoryPageFile.writes: 208580
+de.lmu.ifi.dbs.elki.persistent.MemoryPageFile.numpages: 208578
+de.lmu.ifi.dbs.elki.index.tree.spatial.rstarvariants.rstar.RStarTreeIndex.height: 4
+de.lmu.ifi.dbs.elki.index.tree.spatial.rstarvariants.rstar.RStarTreeIndex.distancecalcs: 0
+de.lmu.ifi.dbs.elki.index.tree.spatial.rstarvariants.rstar.RStarTreeIndex.knnqueries: 0
+de.lmu.ifi.dbs.elki.index.tree.spatial.rstarvariants.rstar.RStarTreeIndex.rangequeries: 0
+de.lmu.ifi.dbs.elki.datasource.FileBasedDatabaseConnection.load: 10 ms
+Result hashcode: -133266270
+Mean number of results: 10.682 +- 5.53325184678955
+de.lmu.ifi.dbs.elki.algorithm.benchmark.RangeQueryBenchmarkAlgorithm.runtime: 125 ms
+Index statistics after running algorithm de.lmu.ifi.dbs.elki.algorithm.benchmark.RangeQueryBenchmarkAlgorithm@29f69090:
+de.lmu.ifi.dbs.elki.persistent.MemoryPageFile.reads: 8816
+de.lmu.ifi.dbs.elki.persistent.MemoryPageFile.writes: 208580
+de.lmu.ifi.dbs.elki.persistent.MemoryPageFile.numpages: 208578
+de.lmu.ifi.dbs.elki.index.tree.spatial.rstarvariants.rstar.RStarTreeIndex.height: 4
+de.lmu.ifi.dbs.elki.index.tree.spatial.rstarvariants.rstar.RStarTreeIndex.distancecalcs: 284410
+de.lmu.ifi.dbs.elki.index.tree.spatial.rstarvariants.rstar.RStarTreeIndex.knnqueries: 0
+de.lmu.ifi.dbs.elki.index.tree.spatial.rstarvariants.rstar.RStarTreeIndex.rangequeries: 1000

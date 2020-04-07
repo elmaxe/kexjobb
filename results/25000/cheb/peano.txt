@@ -1,0 +1,26 @@
+de.lmu.ifi.dbs.elki.datasource.FileBasedDatabaseConnection.load: 109757 ms
+de.lmu.ifi.dbs.elki.index.tree.spatial.rstarvariants.rstar.RStarTreeIndex.directory.capacity: 70
+de.lmu.ifi.dbs.elki.index.tree.spatial.rstarvariants.rstar.RStarTreeIndex.directory.minfill: 28
+de.lmu.ifi.dbs.elki.index.tree.spatial.rstarvariants.rstar.RStarTreeIndex.leaf.capacity: 120
+de.lmu.ifi.dbs.elki.index.tree.spatial.rstarvariants.rstar.RStarTreeIndex.leaf.minfill: 48
+de.lmu.ifi.dbs.elki.index.tree.spatial.rstarvariants.rstar.RStarTreeIndex.construction: 41544 ms
+Index statistics before running algorithms:
+de.lmu.ifi.dbs.elki.persistent.MemoryPageFile.reads: 0
+de.lmu.ifi.dbs.elki.persistent.MemoryPageFile.writes: 525431
+de.lmu.ifi.dbs.elki.persistent.MemoryPageFile.numpages: 525429
+de.lmu.ifi.dbs.elki.index.tree.spatial.rstarvariants.rstar.RStarTreeIndex.height: 5
+de.lmu.ifi.dbs.elki.index.tree.spatial.rstarvariants.rstar.RStarTreeIndex.distancecalcs: 0
+de.lmu.ifi.dbs.elki.index.tree.spatial.rstarvariants.rstar.RStarTreeIndex.knnqueries: 0
+de.lmu.ifi.dbs.elki.index.tree.spatial.rstarvariants.rstar.RStarTreeIndex.rangequeries: 0
+de.lmu.ifi.dbs.elki.datasource.FileBasedDatabaseConnection.load: 14 ms
+Result hashcode: -796207102
+Mean number of results: 157.603 +- 172.4823451574103
+de.lmu.ifi.dbs.elki.algorithm.benchmark.RangeQueryBenchmarkAlgorithm.runtime: 258 ms
+Index statistics after running algorithm de.lmu.ifi.dbs.elki.algorithm.benchmark.RangeQueryBenchmarkAlgorithm@4c6e276e:
+de.lmu.ifi.dbs.elki.persistent.MemoryPageFile.reads: 19625
+de.lmu.ifi.dbs.elki.persistent.MemoryPageFile.writes: 525431
+de.lmu.ifi.dbs.elki.persistent.MemoryPageFile.numpages: 525429
+de.lmu.ifi.dbs.elki.index.tree.spatial.rstarvariants.rstar.RStarTreeIndex.height: 5
+de.lmu.ifi.dbs.elki.index.tree.spatial.rstarvariants.rstar.RStarTreeIndex.distancecalcs: 1028280
+de.lmu.ifi.dbs.elki.index.tree.spatial.rstarvariants.rstar.RStarTreeIndex.knnqueries: 0
+de.lmu.ifi.dbs.elki.index.tree.spatial.rstarvariants.rstar.RStarTreeIndex.rangequeries: 1000
