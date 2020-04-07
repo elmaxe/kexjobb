@@ -23,23 +23,19 @@ Y_LENGTH = float(sys.argv[4])
 Z_LENGTH = float(sys.argv[5])
 # Neurons per cubic millimeter
 DENSITY = float(sys.argv[6])
-# Number of queries
-QUERIES = int(sys.argv[7])
-# Micrometers
-EUCLID_QUERY_RANGE = float(sys.argv[8])
-CHEBYSHEV_QUERY_RANGE = float(sys.argv[9])
 
 # Function applied to every copied neuron.
 # All neurons are origin-centered, so new pos obtained by randomly rotating, scaling, and translating.
 def processSingleMorph(m, id):
+  fp = OUTPUT_FOLDER_FILE_PATH+("/data-%d.txt"%DENSITY)
   f.randomlyRotate(m)
   f.randomlyScale(m, LOW_SCALE, HIGH_SCALE)
   f.randomlyTranslate(m, X_LENGTH, Y_LENGTH, Z_LENGTH)
-  f.appendMorphToFile(m, id, OUTPUT_FOLDER_FILE_PATH+("/data-%d.txt"%DENSITY))
+  f.appendMorphToFileTrimmed(m, id, fp, 0, X_LENGTH, 0, Y_LENGTH, 0, Z_LENGTH)
 
-#### Script start
-queriesFileEuclid = open(OUTPUT_FOLDER_FILE_PATH + "/queries-%d-euclid.txt" % DENSITY, "w+")
-queriesFileChebyshev = open(OUTPUT_FOLDER_FILE_PATH + "/queries-%d-chebyshev.txt" % DENSITY, "w+")
+# #### Script start
+# queriesFileEuclid = open(OUTPUT_FOLDER_FILE_PATH + "/queries-%d-euclid.txt" % DENSITY, "w+")
+# queriesFileChebyshev = open(OUTPUT_FOLDER_FILE_PATH + "/queries-%d-chebyshev.txt" % DENSITY, "w+")
 
 # Get all SWC files in a folder and convert them to list of Morph objects
 print("Using files: ", ", ".join([join(INPUT_FOLDER_PATH, filepath) for filepath in listdir(INPUT_FOLDER_PATH) if isfile(join(INPUT_FOLDER_PATH, filepath)) and filepath.endswith(".swc")]))
@@ -50,17 +46,9 @@ print(" done.")
 # volume is converted to mm3 by 10^-9 multiplication, then multiplied by density, to produce number of neurons in model
 n = int(DENSITY*X_LENGTH*Y_LENGTH*Z_LENGTH/(10.0**9)) 
 
-totalElements = 0
 for i in range(n):
   m = r.choice(inputMorphs)
-  totalElements += m.size()
   processSingleMorph(m, i)
-  if (i < QUERIES):
-    x, y, z = f.randomPointInMorph(m)
-    queriesFileEuclid.write("%f, %f, %f, %f\n" % (x, y, z, EUCLID_QUERY_RANGE))
-    queriesFileChebyshev.write("%f, %f, %f, %f\n" % (x, y, z, CHEBYSHEV_QUERY_RANGE))
   if(i > 0 and (i+1) % 100 == 0):
     print("%d/%d neurons placed" % (i+1, n))
-  if(i == QUERIES-1):
-    print("All queries complete.")
-print("All neurons placed. Total number of points: %d." % totalElements)
+print("All neurons placed.")

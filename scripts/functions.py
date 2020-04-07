@@ -48,14 +48,16 @@ def randomlyScale(m, lowScale, highScale):
 """
 Converts a morphon Morph object into a list of strings of the form 
 'x y z label', where label is an n followed immediately by the id.
-Implementation based on the save function in morphon/swc. 
+Implementation based on the save function in morphon/swc. If xMin, xMax, etc 
+are specified, points not satisfying these constraints are discarded.
 Note: Newlines at the end of each string. 
 """
-def morphToStrings(m, id):
+def morphToStrings(m, id, xMin=-math.inf, xMax=math.inf, yMin=-math.inf, yMax=math.inf, zMin=-math.inf, zMax=math.inf):
   data = []
   for item in m.traverse(): 
     (t, (x, y, z), r) = m.value(item)
-    data.append("%f %f %f n%d\n" % (x, y, z, id))
+    if(xMin <= x and x <= xMax and yMin <= y and y <= yMax and zMin <= z and z <= zMax):
+      data.append("%f %f %f n%d\n" % (x, y, z, id))
   return data
 
 
@@ -73,6 +75,14 @@ def appendMorphToFile(m, id, filepath):
   f = open(filepath, "a")
   f.write("".join(morphToStrings(m, id)))
 
+"""
+Writes (appends) a morph to a file s.t. only points within the 
+specified volume are actually included in the file. Other points
+are discarded.
+"""
+def appendMorphToFileTrimmed(m, id, filepath, xMin, xMax, yMin, yMax, zMin, zMax):
+  f = open(filepath, "a")
+  f.write("".join(morphToStrings(m, id, xMin, xMax, yMin, yMax, zMin, zMax)))
 
 """
 Replicates a set of neurons randomly inside a volume, such that the center
