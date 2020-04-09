@@ -20,7 +20,7 @@
 # $3 Query range, chebyshev
 # $4 Number of queries
 
-densities=( 5000 10000 15000 20000 25000 30000 )
+densities=( 5000 10000 15000 20000 25000 30000 35000 40000 45000 50000 )
 
 for d in "${densities[@]}"
 do

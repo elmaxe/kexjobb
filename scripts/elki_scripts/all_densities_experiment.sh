@@ -20,10 +20,8 @@
 #------------------------------------------------------------
 # $2 Path to output folder, doesn't need to exist beforehand. MUST NOT END WITH A SLASH.
 
-densities=( 5000 10000 15000 20000 25000 30000 )
+densities=( 5000 10000 15000 20000 25000 30000 35000 40000 45000 50000 )
 
-# for ((j = 0; j < ${#densities[@]}; j++))
-# do
 for d in "${densities[@]}"
 do
     echo "Starting experiments for density of $d"
