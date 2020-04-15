@@ -33,10 +33,6 @@ def processSingleMorph(m, id):
   f.randomlyTranslate(m, X_LENGTH, Y_LENGTH, Z_LENGTH)
   f.appendMorphToFileTrimmed(m, id, fp, 0, X_LENGTH, 0, Y_LENGTH, 0, Z_LENGTH)
 
-# #### Script start
-# queriesFileEuclid = open(OUTPUT_FOLDER_FILE_PATH + "/queries-%d-euclid.txt" % DENSITY, "w+")
-# queriesFileChebyshev = open(OUTPUT_FOLDER_FILE_PATH + "/queries-%d-chebyshev.txt" % DENSITY, "w+")
-
 # Get all SWC files in a folder and convert them to list of Morph objects
 print("Using files: ", ", ".join([join(INPUT_FOLDER_PATH, filepath) for filepath in listdir(INPUT_FOLDER_PATH) if isfile(join(INPUT_FOLDER_PATH, filepath)) and filepath.endswith(".swc")]))
 print("Building Morph objects from files... ", end="")

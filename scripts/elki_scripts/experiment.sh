@@ -26,7 +26,6 @@ mkdir -p $4
 for ((i = 0; i < ${#strategies[@]}; i++))
 do
     echo "Starting ${strategyIndices[$i]} $3"
-    # echo "./elkinogui.sh -dbc.in $1 -db.index tree.spatial.rstarvariants.rstar.RStarTreeFactory -pagefile.pagesize 4096 ${strategies[$i]} -time -algorithm benchmark.RangeQueryBenchmarkAlgorithm -algorithm.distancefunction $dist -rangebench.query FileBasedDatabaseConnection -dbc.in $2 -evaluator NoAutomaticEvaluation -resulthandler ResultWriter | grep --invert-match '#'"
     ./elkinogui.sh -dbc.in $1 -db.index tree.spatial.rstarvariants.rstar.RStarTreeFactory -pagefile.pagesize 4096 ${strategies[$i]} -time -algorithm benchmark.RangeQueryBenchmarkAlgorithm -algorithm.distancefunction $dist -rangebench.query FileBasedDatabaseConnection -dbc.in $2 -evaluator NoAutomaticEvaluation -resulthandler ResultWriter | grep --invert-match '#' > $4/${strategyIndices[$i]}.txt
     echo "Finshed ${strategyIndices[$i]} $3"
 done

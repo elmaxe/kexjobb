@@ -25,9 +25,7 @@ densities=( 5000 10000 15000 20000 25000 30000 35000 40000 45000 50000 )
 for d in "${densities[@]}"
 do
     echo "Starting experiments for density of $d"
-    # echo "./experiment.sh $1/$d/data-$d.txt $1/$d/queries-$d-euclid.txt euclid $2/$d/euclid"
     ./experiment.sh $1/$d/data-$d.txt $1/$d/queries-$d-euclid.txt euclid $2/$d/euclid
-    # echo "./experiment.sh $1/$d/data-$d.txt $1/$d/queries-$d-cheb.txt maximum $2/$d/cheb/"
     ./experiment.sh $1/$d/data-$d.txt $1/$d/queries-$d-cheb.txt maximum $2/$d/cheb/
     echo "Finished experiments for density of $d"
 done
