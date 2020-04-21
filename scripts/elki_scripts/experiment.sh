@@ -9,7 +9,6 @@ else
     dist="minkowski.EuclideanDistanceFunction"
 fi
 
-# strategyIndices=( str astr )
 strategyIndices=( str astr onedim binsplit hilbert peano zcurve nobulk)
 
 strategies[0]="-spatial.bulkstrategy SortTileRecursiveBulkSplit"
